@@ -1,67 +1,61 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 
-function App() {
+function PQR() {
+  const [counter, setCounter] = useState(0);
+  const[name,setName]   = useState('aditya')
 
-  // states
-  const [postData, setpostData] = useState([]);
-  const [count, setCount] = useState(0);
-  const [state, setState] = useState({ count: 4, color: "red" });
-  const counter = state.count;
-  const color = state.color;
 
-  // hooks
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then((data) => {
-        console.log("called");
-        setpostData(data.data);
-      })
-      .catch((err) => err);
-  }, []);
 
-  // utility functions
+  function increase() {
+    setCounter(
+      
+      function manipulateCounter(prevCounter) {
+      // prevCounter = prevCounter + 1
+      return (prevCounter += 1);
+    }
+    
+    );
 
-  function decCountby2() {
-    setCount((prevCount) => prevCount - 1);
-    setCount((prevCount) => prevCount - 1);
-  }
-  function incCountBy2() {
-    setCount((prevCount) => prevCount + 1);
-    setCount((prevCount) => prevCount + 1);
+    setName(function manipulateName (prevName){
+      return prevName + counter;
+    })
   }
 
-  const incCounetr = () => {
-    setState((prevState) => {
-      return { ...prevState, count: prevState.count + 1 };
+  function decrease() {
+    setCounter(function manipulateCounter(prevCounter) {
+      return (prevCounter -= 1);
     });
-  };
 
-  const decCounter = () => {
-    setState((prevState) => {
-      return { ...prevState, count: prevState.count - 1 };
+    setName(function manipulateName(prevName) {
+      let newName = prevName + counter;
+      return newName;
     });
-  };
+  }
 
   return (
-    <>
-      <button onClick={decCountby2}>-</button>
-      {count}
-      <button onClick={incCountBy2}>+</button>
-      <br />
-      <h6>Working with object in setState</h6>
-      <button onClick={decCounter}>-</button>
-      {counter} : {color}
-      <button onClick={incCounetr}>+</button>
-      <ul>
-        {postData.map((item, i) => {
-          return <li key={i}>{JSON.stringify(item)}</li>;
-        })}
-      </ul>
-    </>
+    <div
+      className="d-flex justify-content-center align-items-center vh-100 flex-column
+"
+    >
+      <h1 className={counter % 2 === 0 ? "text-danger" : "text-success"}>
+        Sample React Project
+      </h1>
+      <div className="row ">
+        {name}
+        <div className="col">
+          <button className="btn btn-success fw-bold" onClick={increase}>
+            +
+          </button>
+        </div>
+        <div className="col fw-bold">{counter}</div>
+        <div className="col">
+          <button className="btn btn-danger fw-bold" onClick={decrease}>
+            -
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default App;
-
+export default PQR;
