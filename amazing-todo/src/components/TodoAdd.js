@@ -1,18 +1,27 @@
-import { useState } from "react"
-export default function TodoAdd(){
-    const [input,setInput] = useState()
+import { useState } from "react";
+export default function TodoAdd(props) {
+  const [input, setInput] = useState("");
 
-    const itemHandler = (event) => {
-        event.preventDefault()
-    }
+  const itemHandler = (event) => {
+    event.preventDefault();
+    input &&
+      props.updateTodo((oldValue) => {
+        return [...oldValue, { id: props.generateUniqueId(), title: input }];
+      });
+    setInput("");
+  };
 
-    return (
-      <>
-        {/* A page will get reloded when even a form is submitted(use preventdefault) */}
-        <form>
-          <input value={input} />
-          <button onClick={itemHandler}>Add Items</button>
-        </form>
-      </>
-    );
+  const inputHandler = (event) => {
+    setInput(event.target.value);
+  };
+
+  return (
+    <>
+      {/* A page will get reloded when even a form is submitted(use preventdefault) */}
+      <form>
+        <input value={input} onChange={inputHandler} required />
+        <button onClick={itemHandler}>Add Items</button>
+      </form>
+    </>
+  );
 }
