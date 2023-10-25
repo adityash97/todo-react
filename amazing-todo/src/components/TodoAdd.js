@@ -18,7 +18,7 @@ export default function TodoAdd(props) {
   return (
     <>
       {/* A page will get reloded when even a form is submitted(use preventdefault) */}
-      <form>
+      <form className=" d-flex justify-content-center align-items-center">
         <input value={input} onChange={inputHandler} required />
         <button onClick={itemHandler}>Add Items</button>
       </form>

@@ -1,21 +1,28 @@
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { useState } from 'react';
+import { useState } from "react";
 
 function editHandler(e, props, itemtitle) {
   e.preventDefault();
 
   props.updateTodo((oldTodo) => {
-    // edit not working
-    return oldTodo.map((item) => (item.id === props.itemid) && (item.title = itemtitle));
+    // creating New state from old state and after updating returning it.
+    let todo = [...oldTodo];
+    [...oldTodo].map((item) => {
+      if (item.id === props.itemid) {
+        item.title = itemtitle;
+      }
+      return item;
+    });
+    props.onHide(); // Hiding the popup modal
+    return todo;
   });
-
 }
 
 export default function EditModal(props) {
-    const [itemtitle, setItemtitle] = useState(props.itemtitle);
+  const [itemtitle, setItemtitle] = useState(props.itemtitle);
   return (
     <Modal
       {...props}
@@ -41,7 +48,12 @@ export default function EditModal(props) {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
-        <Button onClick={(e) =>{ return editHandler(e, props, itemtitle);}} type="submit">
+        <Button
+          onClick={(e) => {
+            editHandler(e, props, itemtitle);
+          }}
+          type="submit"
+        >
           Save
         </Button>
       </Modal.Footer>

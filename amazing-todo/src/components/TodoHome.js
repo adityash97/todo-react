@@ -20,33 +20,31 @@ export default function TodoHome() {
   ]);
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center flex-column  vh-100 ">
-        <h2>Amazing Todo!!</h2>
+      <div className="d-flex justify-content-center align-items-center   row vh-100 ">
+        <h2 className="row d-flex justify-content-center">Amazing Todo!!</h2>
         {/* unidirectional data flow in react */}
         <TodoAdd updateTodo={setTodo} generateUniqueId={generateUniqueId} />
 
         {/* TODO data will be displayed here */}
-        {todo.length !== 0 ? (
-          todo.map((data) => (
-            <Row className="flex-row">
+        <div className=" d-flex justify-content-center align-items-center flex-column">
+          {todo.length !== 0 ? (
+            todo.map((data) => (
               <li key={data.id}>
-                <Col>
+                <h4>
                   {data.id} :{data.title}
-                </Col>
-                <Col>
-                  <TodoDelete itemid={data.id} updateTodo={setTodo} />
+                </h4>
+                {/* <TodoDelete itemid={data.id} updateTodo={setTodo} />
                   <TodoEdit
                     itemid={data.id}
                     itemtitle={data.title}
                     updateTodo={setTodo}
-                  />
-                </Col>
+                  /> */}
               </li>
-            </Row>
-          ))
-        ) : (
-          <h2>Todo list is empty</h2>
-        )}
+            ))
+          ) : (
+            <h2>Todo list is empty</h2>
+          )}
+        </div>
       </div>
     </>
   );
