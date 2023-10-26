@@ -11,7 +11,7 @@ function generateUniqueId() {
 }
 
 export default function TodoHome() {
-  // hooks must be called inside a function.
+  // hooks must be called inside a function in top level.
   const [todo, setTodo] = useState([
     {
       id: generateUniqueId(),
