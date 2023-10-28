@@ -684,11 +684,23 @@ export default function HomePage() {
       site_admin: false,
     },
   ]);
-    // useEffect(() => {
-    //   setUsers(async (oldUsers) => {oldUsers = await getAllUsers()
-    //   });
-    // }, [users]);
+  const [filterUsers, setFilterUsers] = useState(users);
 
+  // useEffect(() => {
+  //   setUsers(async (oldUsers) => {oldUsers = await getAllUsers()
+  //   });
+  // }, [users]);
+  const filterUserName = (e) => {
+    setFilterUsers(
+      users.filter((user) => {
+        if (user.login.search(e.target.value) !== -1) {
+          return true;
+        }
+        return false;
+      })
+    );
+  };
+  const [isChecked, setIsChecked] = useState(false);
   return (
     <>
       <div className=" d-flex justify-content-center flex-column align-items-center">
@@ -704,32 +716,47 @@ export default function HomePage() {
         </div>
       </div>
       <div className="row mt-2">
+        <div className="col-1">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="defaultCheck1"
+              checked={isChecked}
+              onChange={() => setIsChecked(!isChecked)}
+            />
+            <label className="form-check-label text-white" for="defaultCheck1">
+              Web Search
+            </label>
+          </div>
+        </div>
         <div className="col ">
           <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              @
-            </span>
             <input
               type="text"
               className="form-control"
               placeholder="Github Username"
               aria-label="Username"
               aria-describedby="basic-addon1"
+              onChange={filterUserName}
             ></input>
-            <span class="input-group-text btn btn-secondary" id="basic-addon2">
+            <span
+              className="input-group-text btn btn-secondary"
+              id="basic-addon2"
+            >
               Search
             </span>
           </div>
         </div>
       </div>
       <div className="row">
-        {users.length !== 0 ? (
-          users.map((user) => {
+        {filterUsers.length !== 0 ? (
+          filterUsers.map((user) => {
             return (
-              <div className="col-2">
+              <div className="col col-md-2 col-lg-3 text-center d-flex justify-content-center">
                 <ProfileCard
-                key={user.id}
-                  login={user.login}
+                  key={user.id}
+                  user_id={user.login}
                   avatar_url={user.avatar_url}
                   html_url={user.html_url}
                 />
@@ -737,7 +764,7 @@ export default function HomePage() {
             );
           })
         ) : (
-          <h3> Fetching Data</h3>
+          <h3 className="text-h3 text-center text-white">No Data Found!</h3>
         )}
       </div>
     </>

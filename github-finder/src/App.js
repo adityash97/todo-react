@@ -5,8 +5,8 @@ function App() {
   return (
     <>
       <div className="container-fluid vh-100 overflow-auto bg-black">
-        {/* <HomePage /> */}
-        <ProfilePage/>
+        <HomePage />
+        {/* <ProfilePage/> */}
       </div>
     </>
   );
