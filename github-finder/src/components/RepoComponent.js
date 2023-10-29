@@ -2,10 +2,10 @@ export default function RepoComponent(props) {
   return (
     <>
       <div
-        class="card m-3 overflow-auto"
-        style={{ height: "10rem", width: "26rem" ,"background-color": "#97DEE3"}}
+        className="card m-3 overflow-auto"
+        style={{ height: "10rem", width: "26rem", backgroundColor: "#97DEE3" }}
       >
-        <div class="card-body d-flex justify-content-between flex-column">
+        <div className="card-body d-flex justify-content-between flex-column">
           <div className="row ">
             <div className="col-6">{props.full_name}</div>
             <div className="col-3 text-start text-nowrap ">

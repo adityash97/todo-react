@@ -1,12 +1,21 @@
 import './App.css';
-import HomePage from './pages/HomePage'
-import ProfilePage from './pages/ProfilePage';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+import { Outlet } from 'react-router-dom';
 function App() {
+  const location = useLocation().pathname;
+  console.log("Path Name",location)
   return (
     <>
       <div className="container-fluid vh-100 overflow-auto bg-black">
-        <HomePage />
-        {/* <ProfilePage/> */}
+        <nav class="navbar navbar-light ">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1 text-white">Github Finder</span>
+            {location !== "/" && <Link to="/" className='text-white text-bold'>Home</Link>}
+          </div>
+        </nav>
+        <Outlet />
       </div>
     </>
   );

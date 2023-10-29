@@ -1,8 +1,9 @@
 // call the api to get user details on the basis of user_id
 // And send Data to Profile Page(followers and following)
 import {useState} from 'react'
+import { NavLink } from 'react-router-dom';
 export default function ProfileCard(props) {
-  
+  const [url, setUrl] = useState("/profile/" + props.user_id);
   const [user,setUser] = useState({
   "login": "jsa",
   "id": 2024,
@@ -50,17 +51,17 @@ export default function ProfileCard(props) {
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">ID : {props.user_id}</h5>
           <p className="card-text">Hey!! This is profile of {props.login}</p>
-            <a href="#" className="btn btn-primary mb-1">
-              View Profile
-            </a>
-            <a
-              href={props.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-warning"
-            >
-              View On Github
-            </a>
+          <NavLink to={url} className="btn btn-primary mb-1">
+            View Profile
+          </NavLink>
+          <a
+            href={props.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-warning"
+          >
+            View On Github
+          </a>
         </div>
       </div>
     </>
