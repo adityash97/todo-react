@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faTrash,faPenToSquare} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import EditModal from "./EditModal";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
     { title: "Sample Todo", id: Math.floor(Math.random() * 89999 + 10000) },
   ]);
   const [todoTitle, setTodoTitle] = useState("");
-  const [editModal,setEditModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const opneModal = () => {
     setEditModal(true);
@@ -21,7 +21,7 @@ export default function Home() {
   function createTodo(event) {
     event.preventDefault();
     setTodos((prevTodo) => {
-      debugger
+      // debugger
       return [
         ...prevTodo,
         {
@@ -33,7 +33,7 @@ export default function Home() {
   }
 
 
-  function onDelete (id){
+  function onDelete(id) {
     setTodos(
       (prevTodo) => {
         return prevTodo.filter((todo) => todo.id !== id)
@@ -42,58 +42,61 @@ export default function Home() {
     )
   }
 
-  function onUpdate(id,title){
+  function onUpdate(id, title) {
     setTodoTitle(
-      (prevTodo) =>{
-        for (let todo in prevTodo){
-          if (parseInt(todo.id) === parseInt(id))
-            {
-              todo.title = title
-              return prevTodo
-            }
+      (prevTodo) => {
+        for (let todo in prevTodo) {
+          if (parseInt(todo.id) === parseInt(id)) {
+            todo.title = title
+            return prevTodo
+          }
         }
       }
     )
   }
 
-
-
   return (
-    <>
+    <div className="flex" style={{ height: '100vh', width: '100vw' }}>
       {editModal ? (
         <EditModal closeModal={closeModal} updateTodo={onUpdate} />
       ) : (
         ""
       )}
 
-      <div>
-        Amazing Todo!!
-        <form onSubmit={(event) => createTodo(event)}>
-          <input
-            placeholder="Add todo items here"
-            defaultValue={todoTitle}
-            onInput={(e) => setTodoTitle(e.target.value)}
-          />
-          <button className="btn btn-success" type="submit">
-            Add
-          </button>
-        </form>
-        <ul>
-          {todos.map((item) => (
-            <>
-              <li>
-                {item.title} - {item.id}
-                <button onClick={() => onDelete(item.id)}>
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-                <button onClick={opneModal}>
-                  <FontAwesomeIcon icon={faPenToSquare} />
-                </button>
-              </li>
-            </>
-          ))}
-        </ul>
+      <div className="grid">
+        <div align='center'>
+          <h3 className="heading">Amazing Todo!!</h3>
+          <form onSubmit={(event) => createTodo(event)}>
+            <input
+              placeholder="Add todo items here"
+              className="formInput"
+              defaultValue={todoTitle}
+              onInput={(e) => setTodoTitle(e.target.value)}
+            />
+            <button className="btn btn-success" type="submit">
+              Add
+            </button>
+          </form>
+          <div align='center' className="view" style={{display: todos.length !== 0 ? "block": "none"}}>
+            {todos.map((item) => (
+              <div className="flex">
+                <div style={{ wordBreak: 'break-word', marginRight: '1rem' }}>
+                  {item.title} - {item.id}
+                </div>
+                <div className="flex" style={{ width: '4rem' }}>
+                  <button onClick={() => onDelete(item.id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                  <button onClick={opneModal}>
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
       </div>
-    </>
+    </div>
   );
 }
