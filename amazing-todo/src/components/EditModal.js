@@ -10,7 +10,7 @@ function editHandler(e, props, itemtitle) {
   props.updateTodo((oldTodo) => {
     // creating New state from old state and after updating returning it.
     let todo = [...oldTodo];
-    [...oldTodo].map((item) => {
+    todo.map((item) => {
       if (item.id === props.itemid) {
         item.title = itemtitle;
       }
