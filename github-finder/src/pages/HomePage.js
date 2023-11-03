@@ -1,18 +1,22 @@
 import github_image from "../static/images/github_image.png";
 import ProfileCard from "../components/ProfileCard";
 import { useState, useEffect } from "react";
-import { getAllUsers } from "../api/index";
+import { getAllUsers, getUserMatch } from "../api/index";
 export default function HomePage() {
   const [users, setUsers] = useState([{}]);
   const [filterUsers, setFilterUsers] = useState([{}]);
+  const [isWebSearch, setWebSearch] = useState(false);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     async function fetchData() {
       await getAllUsers(setUsers, setFilterUsers);
     }
     fetchData();
-  },[]);
+  }, []);
+
   const filterUserName = (e) => {
+    setUserName(e.target.value);
     setFilterUsers(
       users.filter((user) => {
         if (user.login.search(e.target.value) !== -1) {
@@ -22,7 +26,13 @@ export default function HomePage() {
       })
     );
   };
-  const [isChecked, setIsChecked] = useState(false);
+
+  const webSearch = async (e) => {
+    if (isWebSearch) {
+      await getUserMatch(userName, setUsers, setFilterUsers);
+    }
+  };
+
   return (
     <>
       <div className=" d-flex justify-content-center flex-column align-items-center">
@@ -38,6 +48,7 @@ export default function HomePage() {
         </div>
       </div>
       <>
+        {/* search bar */}
         <div className="row mt-2">
           <div className="col-1">
             <div className="form-check">
@@ -45,12 +56,12 @@ export default function HomePage() {
                 className="form-check-input"
                 type="checkbox"
                 id="defaultCheck1"
-                checked={isChecked}
-                onChange={() => setIsChecked(!isChecked)}
+                checked={isWebSearch}
+                onChange={() => setWebSearch(!isWebSearch)}
               />
               <label
                 className="form-check-label text-white"
-                for="defaultCheck1"
+                htmlFor="defaultCheck1"
               >
                 Web Search
               </label>
@@ -62,6 +73,7 @@ export default function HomePage() {
                 type="text"
                 className="form-control"
                 placeholder="Github Username"
+                value={userName}
                 aria-label="Username"
                 aria-describedby="basic-addon1"
                 onChange={filterUserName}
@@ -69,12 +81,14 @@ export default function HomePage() {
               <span
                 className="input-group-text btn btn-secondary"
                 id="basic-addon2"
+                onClick={webSearch}
               >
                 Search
               </span>
             </div>
           </div>
         </div>
+        {/* profile list */}
 
         <div className="row">
           {filterUsers.length !== 0 ? (
@@ -91,7 +105,9 @@ export default function HomePage() {
               );
             })
           ) : (
-            <h3 className="text-h3 text-center text-white">No Data Found!</h3>
+            <h3 className="text-h3 text-center text-white">
+              No Data Found!Please enable websearch and click on search.
+            </h3>
           )}
         </div>
       </>
