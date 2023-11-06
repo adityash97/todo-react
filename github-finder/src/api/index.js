@@ -1,4 +1,6 @@
 import axios from "axios";
+const { localStorage } = window;
+
 const BASE_URL = "https://api.github.com/users";
 // To get user match
 // https://api.github.com/search/users?q=user_id
@@ -17,7 +19,11 @@ export async function getAllUsers(setUsers, setFilterUsers) {
   let res = await axios.get(BASE_URL);
   setUsers(res.data);
   setFilterUsers(res.data);
-  //   console.log("data", res.data);
+  const users = res.data.map((data) => JSON.stringify(data));
+  debugger
+  localStorage.setItem("users", JSON.stringify(users));
+  // console.log("data => ",localStorage.getItem('users'))
+
 }
 // Getting details of a single user
 export async function getUserDetails(user_id, setuserdata) {
