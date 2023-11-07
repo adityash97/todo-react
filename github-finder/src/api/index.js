@@ -16,12 +16,17 @@ const BASE_URL = "https://api.github.com/users";
 
 // Getting default list of users.
 export async function getAllUsers(setUsers, setFilterUsers) {
-  let res = await axios.get(BASE_URL);
-  setUsers(res.data);
-  setFilterUsers(res.data);
-  const users = res.data.map((data) => JSON.stringify(data));
-  debugger
-  localStorage.setItem("users", JSON.stringify(users));
+  let defaultData = JSON.parse(localStorage.getItem("users")) || [];
+  if (defaultData.length === 0) {
+    console.log("calling default api ")
+    let res = await axios.get(BASE_URL);
+    const users = res.data.map((data) => JSON.stringify(data));
+    localStorage.setItem("users", JSON.stringify(users));
+    defaultData = JSON.parse(localStorage.getItem("users"));
+  }
+  setUsers(defaultData);
+  setFilterUsers(defaultData);
+
   // console.log("data => ",localStorage.getItem('users'))
 
 }
