@@ -27,8 +27,6 @@ export async function getAllUsers(setUsers, setFilterUsers) {
   setUsers(defaultData);
   setFilterUsers(defaultData);
 
-  // console.log("data => ",localStorage.getItem('users'))
-
 }
 // Getting details of a single user
 export async function getUserDetails(user_id, setuserdata) {
