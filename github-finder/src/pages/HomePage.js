@@ -2,6 +2,7 @@ import github_image from "../static/images/github_image.png";
 import ProfileCard from "../components/ProfileCard";
 import { useState, useEffect } from "react";
 import { getAllUsers, getUserMatch } from "../api/index";
+
 export default function HomePage() {
   const [users, setUsers] = useState([{}]);
   const [filterUsers, setFilterUsers] = useState([{}]);
@@ -12,8 +13,8 @@ export default function HomePage() {
     async function fetchData() {
       await getAllUsers(setUsers, setFilterUsers);
     }
-    fetchData();
-  }, []);
+      fetchData();
+  },[]);
 
   const filterUserName = (e) => {
     setUserName(e.target.value);

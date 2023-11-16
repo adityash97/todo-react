@@ -1,5 +1,3 @@
-import axios from "axios";
-const BASE_URL = "https://api.github.com/users";
 // To get user match
 // https://api.github.com/search/users?q=user_id
 
@@ -12,12 +10,23 @@ const BASE_URL = "https://api.github.com/users";
 // Get Repo
 // https://api.github.com/users/mojombo/repos
 
+import axios from "axios";
+import { ParseJsonData } from "./filter";
+const { localStorage } = window;
+
+const BASE_URL = "https://api.github.com/users";
+
 // Getting default list of users.
 export async function getAllUsers(setUsers, setFilterUsers) {
-  let res = await axios.get(BASE_URL);
-  setUsers(res.data);
-  setFilterUsers(res.data);
-  //   console.log("data", res.data);
+  let defaultData = JSON.parse(localStorage.getItem("users")) || [];
+  if (defaultData.length === 0) {
+    let res = await axios.get(BASE_URL);
+    const users = res.data.map((data) => JSON.stringify(data));
+    localStorage.setItem("users", JSON.stringify(users));
+    defaultData = JSON.parse(localStorage.getItem("users"));
+  }
+  setUsers(ParseJsonData(defaultData));
+  setFilterUsers(ParseJsonData(defaultData));
 }
 // Getting details of a single user
 export async function getUserDetails(user_id, setuserdata) {
@@ -52,6 +61,7 @@ export async function getFollowers(user_id, setFollowers) {
       return {};
     });
 }
+
 export async function getUserMatch(user_id, setUsers, setFilterUsers) {
   let res = await axios.get(`https://api.github.com/search/users?q=${user_id}`);
   setUsers((oldData) => {
